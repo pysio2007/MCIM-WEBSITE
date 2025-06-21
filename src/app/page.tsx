@@ -72,7 +72,7 @@ export default async function Home() {
                 MCIM <span className="text-sm animate-bounce inline-block ml-2">✨</span>
               </h1>
               <p className="text-gray-500 dark:text-gray-400 text-lg">
-                Minecraft Mod 信息镜像 | 加速访问 | 畅通无阻
+                Minecraft Mod 镜像加速
               </p>
             </div>
           </div>
@@ -165,7 +165,7 @@ export default async function Home() {
             为什么选择 MCIM？
           </h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            我们提供稳定、快速的 Minecraft Mod 信息镜像服务，让你的开发更加顺畅
+            我们提供稳定、快速的 Minecraft Mod 信息镜像服务，让你的下载更加顺畅
           </p>
         </div>
         
@@ -228,7 +228,7 @@ export default async function Home() {
               </div>
               
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                通过优化的网络架构和智能缓存策略，大幅提升 Mod 信息查询和文件下载速度。
+                通过优秀的 CDN 和缓存，大幅提升 Mod 信息查询和文件下载速度。
               </p>
               
               <div className="space-y-3">
@@ -284,7 +284,7 @@ export default async function Home() {
                 <div>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">镜像 API:</p>
                   <code className="block bg-green-50 dark:bg-green-900/20 p-3 rounded text-sm text-green-700 dark:text-green-300 font-mono break-all border border-green-200 dark:border-green-800">
-                    https://mod.mcimirror.top/modrinth/project/sodium
+                    https://mod.mcimirror.top/modrinth/v2/project/sodium
                   </code>
                 </div>
               </div>
@@ -313,7 +313,7 @@ export default async function Home() {
                 <div>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">镜像 API:</p>
                   <code className="block bg-orange-50 dark:bg-orange-900/20 p-3 rounded text-sm text-orange-700 dark:text-orange-300 font-mono break-all border border-orange-200 dark:border-orange-800">
-                    https://mod.mcimirror.top/curseforge/mod/238222
+                    https://mod.mcimirror.top/curseforge/v1/mods/238222
                   </code>
                 </div>
               </div>
@@ -326,7 +326,7 @@ export default async function Home() {
       <footer className="text-center py-8 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-center space-x-6 mb-4">
           <a 
-            href="https://github.com/mcmod-info-mirror/mcim-rust-api" 
+            href="https://github.com/mcmod-info-mirror" 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -347,7 +347,7 @@ export default async function Home() {
           </a>
         </div>
         <p className="text-gray-500 dark:text-gray-400 text-sm">
-          © 2024 MCIM. 致力于为 Minecraft 社区提供更好的开发体验。
+          © 2025 MCIM. 致力于为 Minecraft 社区提供更好的体验。
         </p>
       </footer>
     </main>
