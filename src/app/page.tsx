@@ -2,35 +2,34 @@ import { ArrowUpRight, Server, Wifi, Globe, Users, Zap, NetworkIcon, CloudCog, G
 import Image from 'next/image';
 import { ClientComponents } from './client-components';
 
-// 定义统计数据接口
 interface StatsData {
   curseforge: {
     mod: number;
     file: number;
-    fingerprint: number;
   };
   modrinth: {
     project: number;
     version: number;
     file: number;
   };
-  file_cdn: {
-    file: number;
+  translate: {
+    curseforge: number;
+    modrinth: number;
   };
 }
 
 // 服务端异步获取统计数据函数
 async function getStats(): Promise<StatsData | null> {
   try {
-    const response = await fetch('https://mod.mcimirror.top/statistics', {
-      next: { revalidate: 300 } // 5分钟缓存
+    const response = await fetch("https://mod.mcimirror.top/statistics", {
+      next: { revalidate: 300 }, // 5分钟缓存
     });
     if (response.ok) {
       return await response.json();
     }
     return null;
   } catch (error) {
-    console.error('获取统计数据失败:', error);
+    console.error("获取统计数据失败:", error);
     return null;
   }
 }
@@ -38,10 +37,10 @@ async function getStats(): Promise<StatsData | null> {
 // 格式化数字函数
 function formatNumber(num: number): string {
   if (num >= 1000000) {
-    return (num / 1000000).toFixed(1) + 'M';
+    return (num / 1000000).toFixed(1) + "M";
   }
   if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'k';
+    return (num / 1000).toFixed(1) + "k";
   }
   return num.toString();
 }
@@ -54,7 +53,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen py-12 px-6 md:px-12 max-w-5xl mx-auto cn-page">
       <ClientComponents />
-      
+
       <header className="mb-8 relative">
         <div className="flex justify-between items-center relative">
           <div className="flex items-center space-x-4">
@@ -69,7 +68,10 @@ export default async function Home() {
             </div>
             <div>
               <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 inline-block text-transparent bg-clip-text">
-                MCIM <span className="text-sm animate-bounce inline-block ml-2">✨</span>
+                MCIM{" "}
+                <span className="text-sm animate-bounce inline-block ml-2">
+                  ✨
+                </span>
               </h1>
               <p className="text-gray-500 dark:text-gray-400 text-lg">
                 Minecraft Mod 镜像加速
@@ -78,7 +80,7 @@ export default async function Home() {
           </div>
           <div className="relative group">
             <div className="absolute -inset-1.5 bg-gradient-to-br from-pink-400 to-purple-600 rounded-md opacity-25 group-hover:opacity-40 blur-lg transition duration-500"></div>
-            <a 
+            <a
               href="https://mod.mcimirror.top/docs"
               target="_blank"
               rel="noopener noreferrer"
@@ -86,72 +88,111 @@ export default async function Home() {
             >
               <Code className="w-4 h-4 transition-transform duration-300 group-hover:rotate-12" />
               <span className="relative overflow-hidden inline-block">
-                <span className="inline-block transition-transform duration-500">API 文档</span>
+                <span className="inline-block transition-transform duration-500">
+                  API 文档
+                </span>
               </span>
             </a>
           </div>
         </div>
       </header>
 
-      {/* 统计数据展示区域 */}
       <section className="mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Modrinth 镜像统计 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Modrinth 区块 */}
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-green-400 to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
             <div className="relative bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700 group-hover:border-green-300 dark:group-hover:border-green-600 transition-all duration-300">
-              <div className="absolute top-4 right-4 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-              <div className="absolute top-2 right-2 w-2 h-2 bg-green-300 rounded-full opacity-60"></div>
+              {/* 左上角图标和标题 */}
               <div className="flex items-center justify-between mb-4">
                 <Globe2 className="w-8 h-8 text-green-500 transform group-hover:scale-110 transition-transform duration-300" />
-                <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">MODRINTH</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+                  MODRINTH
+                </span>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                {stats ? formatNumber(stats.modrinth.project) : '69.5k'}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">个项目已缓存</p>
-              <div className="mt-3 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-green-400 to-blue-500 rounded-full animate-pulse" style={{width: '85%'}}></div>
+
+              {/* 上半部分：缓存数量 */}
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                  {stats ? formatNumber(stats.modrinth.project) : "0"}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  个项目已缓存
+                </p>
+              </div>
+
+              {/* 下半部分：翻译进度 */}
+              <div>
+                <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                  已翻译
+                </h4>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
+                  {stats ? formatNumber(stats.translate.modrinth) : "0"} 个
+                </p>
+                <div className="h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-green-400 to-blue-500 rounded-full animate-pulse"
+                    style={{
+                      width: stats
+                        ? `${Math.min(
+                            (stats.translate.modrinth /
+                              stats.modrinth.project) *
+                              100,
+                            100
+                          ).toFixed(1)}%`
+                        : "0%",
+                    }}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* CurseForge 镜像统计 */}
+          {/* CurseForge 区块 */}
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-400 to-red-500 rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
             <div className="relative bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700 group-hover:border-orange-300 dark:group-hover:border-orange-600 transition-all duration-300">
-              <div className="absolute top-4 right-4 w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
-              <div className="absolute top-2 right-2 w-2 h-2 bg-orange-300 rounded-full opacity-60"></div>
+              {/* 左上角图标和标题 */}
               <div className="flex items-center justify-between mb-4">
                 <Zap className="w-8 h-8 text-orange-500 transform group-hover:scale-110 transition-transform duration-300" />
-                <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">CURSEFORGE</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+                  CURSEFORGE
+                </span>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                {stats ? formatNumber(stats.curseforge.mod) : '152.4k'}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">个 Mod 已缓存</p>
-              <div className="mt-3 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full animate-pulse" style={{width: '92%'}}></div>
-              </div>
-            </div>
-          </div>
 
-          {/* 缓存文件总数统计 */}
-          <div className="relative group">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
-            <div className="relative bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700 group-hover:border-purple-300 dark:group-hover:border-purple-600 transition-all duration-300">
-              <div className="absolute top-4 right-4 w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
-              <div className="absolute top-2 right-2 w-2 h-2 bg-purple-300 rounded-full opacity-60"></div>
-              <div className="flex items-center justify-between mb-4">
-                <HardDrive className="w-8 h-8 text-purple-500 transform group-hover:scale-110 transition-transform duration-300" />
-                <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">TOTAL FILES</span>
+              {/* 上半部分：缓存数量 */}
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                  {stats ? formatNumber(stats.curseforge.mod) : "0"}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  个 Mod 已缓存
+                </p>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                {stats ? formatNumber(stats.file_cdn.file) : '876.5k'}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">缓存文件总数</p>
-              <div className="mt-3 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-purple-400 to-pink-500 rounded-full animate-pulse" style={{width: '78%'}}></div>
+
+              {/* 下半部分：翻译进度 */}
+              <div>
+                <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                  已翻译
+                </h4>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
+                  {stats ? formatNumber(stats.translate.curseforge) : "0"} 个
+                </p>
+                <div className="h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full animate-pulse"
+                    style={{
+                      width: stats
+                        ? `${Math.min(
+                            (stats.translate.curseforge /
+                              stats.curseforge.mod) *
+                              100,
+                            100
+                          ).toFixed(1)}%`
+                        : "0%",
+                    }}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
@@ -168,7 +209,7 @@ export default async function Home() {
             我们提供稳定、快速的 Minecraft Mod 信息镜像服务，让你的下载更加顺畅
           </p>
         </div>
-        
+
         <div className="grid md:grid-cols-2 gap-8">
           {/* 镜像服务卡片 */}
           <div className="relative group">
@@ -177,21 +218,26 @@ export default async function Home() {
               <div className="absolute top-4 right-4 w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
               <div className="absolute top-6 right-6 w-6 h-6 border-2 border-blue-300 rounded-full opacity-20"></div>
               <div className="absolute top-8 right-8 w-8 h-8 border border-blue-200 rounded-full opacity-10"></div>
-              
+
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                   <Server className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">镜像服务</h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">Mirror Services</p>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                    镜像服务
+                  </h3>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
+                    Mirror Services
+                  </p>
                 </div>
               </div>
-              
+
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                提供 Modrinth 和 CurseForge 的完整镜像服务，确保你能够快速访问所需的 Mod 信息和文件。
+                提供 Modrinth 和 CurseForge
+                的完整镜像服务，确保你能够快速访问所需的 Mod 信息和文件。
               </p>
-              
+
               <div className="space-y-3">
                 <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                   <div className="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></div>
@@ -216,21 +262,25 @@ export default async function Home() {
               <div className="absolute top-4 right-4 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
               <div className="absolute top-6 right-6 w-6 h-6 border-2 border-green-300 rounded-full opacity-20"></div>
               <div className="absolute top-8 right-8 w-8 h-8 border border-green-200 rounded-full opacity-10"></div>
-              
+
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">加速访问</h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">Fast Access</p>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                    加速访问
+                  </h3>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
+                    Fast Access
+                  </p>
                 </div>
               </div>
-              
+
               <p className="text-gray-600 dark:text-gray-400 mb-6">
                 通过优秀的 CDN 和缓存，大幅提升 Mod 信息查询和文件下载速度。
               </p>
-              
+
               <div className="space-y-3">
                 <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                   <div className="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></div>
@@ -269,20 +319,28 @@ export default async function Home() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                   <Globe2 className="w-6 h-6 text-green-500 mr-3" />
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Modrinth API</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Modrinth API
+                  </h3>
                 </div>
-                <span className="text-xs bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-2 py-1 rounded-full">推荐</span>
+                <span className="text-xs bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-2 py-1 rounded-full">
+                  推荐
+                </span>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">原始 API:</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    原始 API:
+                  </p>
                   <code className="block bg-gray-100 dark:bg-gray-800 p-3 rounded text-sm text-gray-800 dark:text-gray-200 font-mono break-all">
                     https://api.modrinth.com/v2/project/sodium
                   </code>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">镜像 API:</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    镜像 API:
+                  </p>
                   <code className="block bg-green-50 dark:bg-green-900/20 p-3 rounded text-sm text-green-700 dark:text-green-300 font-mono break-all border border-green-200 dark:border-green-800">
                     https://mod.mcimirror.top/modrinth/v2/project/sodium
                   </code>
@@ -298,20 +356,28 @@ export default async function Home() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                   <Zap className="w-6 h-6 text-orange-500 mr-3" />
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">CurseForge API</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    CurseForge API
+                  </h3>
                 </div>
-                <span className="text-xs bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 px-2 py-1 rounded-full">热门</span>
+                <span className="text-xs bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 px-2 py-1 rounded-full">
+                  热门
+                </span>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">原始 API:</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    原始 API:
+                  </p>
                   <code className="block bg-gray-100 dark:bg-gray-800 p-3 rounded text-sm text-gray-800 dark:text-gray-200 font-mono break-all">
                     https://api.curseforge.com/v1/mods/238222
                   </code>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">镜像 API:</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    镜像 API:
+                  </p>
                   <code className="block bg-orange-50 dark:bg-orange-900/20 p-3 rounded text-sm text-orange-700 dark:text-orange-300 font-mono break-all border border-orange-200 dark:border-orange-800">
                     https://mod.mcimirror.top/curseforge/v1/mods/238222
                   </code>
@@ -325,9 +391,9 @@ export default async function Home() {
       {/* 底部信息 */}
       <footer className="text-center py-8 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-center space-x-6 mb-4">
-          <a 
-            href="https://github.com/mcmod-info-mirror" 
-            target="_blank" 
+          <a
+            href="https://github.com/mcmod-info-mirror"
+            target="_blank"
             rel="noopener noreferrer"
             className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
           >
@@ -335,9 +401,9 @@ export default async function Home() {
             GitHub
             <ArrowUpRight className="w-3 h-3 ml-1" />
           </a>
-          <a 
-            href="https://mod.mcimirror.top/docs" 
-            target="_blank" 
+          <a
+            href="https://mod.mcimirror.top/docs"
+            target="_blank"
             rel="noopener noreferrer"
             className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
           >
