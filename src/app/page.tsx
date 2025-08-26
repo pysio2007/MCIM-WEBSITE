@@ -1,5 +1,6 @@
-import { ArrowUpRight, Server, Wifi, Globe, Users, Zap, NetworkIcon, CloudCog, Globe2, Network, Search, Code, Download, Shield, HardDrive } from "lucide-react";
+import { ArrowUpRight, Server, Wifi, Globe, Users, Zap, NetworkIcon, CloudCog, Globe2, Network, Search, Code, Download, Shield, HardDrive, Heart } from "lucide-react";
 import Image from 'next/image';
+import Link from 'next/link';
 import { ClientComponents } from './client-components';
 
 interface StatsData {
@@ -78,21 +79,40 @@ export default async function Home() {
               </p>
             </div>
           </div>
-          <div className="relative group">
-            <div className="absolute -inset-1.5 bg-gradient-to-br from-pink-400 to-purple-600 rounded-md opacity-25 group-hover:opacity-40 blur-lg transition duration-500"></div>
-            <a
-              href="https://mod.mcimirror.top/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative z-10 cursor-pointer flex items-center gap-1 text-sm px-3 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md hover:border-gray-300 dark:hover:border-gray-600 transition-all overflow-hidden"
-            >
-              <Code className="w-4 h-4 transition-transform duration-300 group-hover:rotate-12" />
-              <span className="relative overflow-hidden inline-block">
-                <span className="inline-block transition-transform duration-500">
-                  API 文档
+          <div className="flex items-center space-x-3">
+            {/* 赞助按钮 */}
+            <div className="relative group">
+              <div className="absolute -inset-1.5 bg-gradient-to-br from-red-400 to-pink-600 rounded-md opacity-25 group-hover:opacity-40 blur-lg transition duration-500"></div>
+              <Link
+                href="/sponsor"
+                className="relative z-10 cursor-pointer flex items-center gap-1 text-sm px-3 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md hover:border-gray-300 dark:hover:border-gray-600 transition-all overflow-hidden"
+              >
+                <Heart className="w-4 h-4 text-red-500 transition-transform duration-300 group-hover:scale-110" />
+                <span className="relative overflow-hidden inline-block">
+                  <span className="inline-block transition-transform duration-500">
+                    赞助
+                  </span>
                 </span>
-              </span>
-            </a>
+              </Link>
+            </div>
+
+            {/* API 文档按钮 */}
+            <div className="relative group">
+              <div className="absolute -inset-1.5 bg-gradient-to-br from-blue-400 to-purple-600 rounded-md opacity-25 group-hover:opacity-40 blur-lg transition duration-500"></div>
+              <a
+                href="https://mod.mcimirror.top/docs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-10 cursor-pointer flex items-center gap-1 text-sm px-3 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md hover:border-gray-300 dark:hover:border-gray-600 transition-all overflow-hidden"
+              >
+                <Code className="w-4 h-4 transition-transform duration-300 group-hover:rotate-12" />
+                <span className="relative overflow-hidden inline-block">
+                  <span className="inline-block transition-transform duration-500">
+                    API 文档
+                  </span>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </header>
