@@ -38,38 +38,12 @@ yarn dev
 bun run dev
 ```
 
-## Production
+## Deploy to Vercel
 
-Build the application for production:
+The application builds with Nitro's `vercel` preset.
 
-```bash
-# npm
-npm run build
+1. Push the repository to GitHub, GitLab, or Bitbucket.
+2. Import the repository in Vercel.
+3. Keep the detected Nuxt build settings and deploy.
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Vercel runs `npm run build` and consumes the generated `.vercel/output` directory.

@@ -30,7 +30,7 @@ const curseforgePercent = computed(() => {
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">
-        Minecraft Mod 信息镜像
+        Minecraft Mod <span class="mcim-nowrap">信息镜像</span>
       </h1>
       <p class="govuk-body-l">
         为中国大陆用户提供稳定、快速的 Minecraft Mod 信息镜像服务，支持 Modrinth 和 CurseForge API，完全兼容官方接口。
@@ -61,12 +61,12 @@ const curseforgePercent = computed(() => {
 
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-8">
 
-  <div class="govuk-grid-row govuk-!-margin-top-8">
+  <div class="govuk-grid-row govuk-!-margin-top-8 mcim-stat-grid">
     <div class="govuk-grid-column-full">
       <h2 class="govuk-heading-l">缓存统计</h2>
     </div>
 
-    <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-column-one-half mcim-stat-column">
       <div class="mcim-stat-panel">
         <span class="govuk-caption-m">Modrinth</span>
         <p class="govuk-heading-l govuk-!-margin-bottom-1">
@@ -109,7 +109,7 @@ const curseforgePercent = computed(() => {
       </div>
     </div>
 
-    <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-column-one-half mcim-stat-column">
       <div class="mcim-stat-panel">
         <span class="govuk-caption-m">CurseForge</span>
         <p class="govuk-heading-l govuk-!-margin-bottom-1">
@@ -278,8 +278,34 @@ const curseforgePercent = computed(() => {
 </template>
 
 <style scoped>
+.govuk-summary-card__title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.govuk-summary-card__title-wrapper .govuk-tag {
+  flex-shrink: 0;
+}
+
+.mcim-nowrap {
+  white-space: nowrap;
+}
+
+.mcim-stat-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mcim-stat-column {
+  display: flex;
+}
+
 .mcim-stat-panel {
-  border-left: 5px solid #1d70b8;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  box-sizing: border-box;
   padding: 20px 25px;
   margin-bottom: 30px;
   background-color: #ffffff;
@@ -287,6 +313,7 @@ const curseforgePercent = computed(() => {
 
 .mcim-progress {
   height: 8px;
+  margin-top: auto;
   background-color: #f3f2f1;
   border: 1px solid #b1b4b6;
 }

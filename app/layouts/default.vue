@@ -67,6 +67,16 @@
             <p class="govuk-footer__licence-description">
               © 2026 MCIM. 致力于为 Minecraft 社区提供更好的体验。
             </p>
+            <p class="govuk-footer__licence-description">
+              <a
+                class="govuk-footer__link"
+                href="https://beian.miit.gov.cn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                蜀ICP备2023021309号-4
+              </a>
+            </p>
           </div>
         </div>
       </div>
